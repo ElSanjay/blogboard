@@ -12,6 +12,8 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= render :partial => "shared/navigation"%>
-    <%= yield %>
+    <div class="ui container">
+      <%= yield %>
+    </div>
   </body>
 </html>

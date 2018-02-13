@@ -19,6 +19,8 @@ gem 'jquery-rails'
 gem 'devise'
 gem 'semantic-ui-sass'
 
+gem 'leaderboard'
+
 
 
 group :development, :test do
@@ -27,6 +29,8 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers', '~> 3.0'
+
+  gem 'faker'
 end
 
 group :development do
