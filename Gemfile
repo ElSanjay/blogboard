@@ -20,6 +20,7 @@ gem 'devise'
 gem 'semantic-ui-sass'
 
 gem 'leaderboard'
+gem 'kaminari'
 
 
 

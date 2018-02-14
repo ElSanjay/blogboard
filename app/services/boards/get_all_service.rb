@@ -1,7 +1,7 @@
 module Boards
   class GetAllService < Boards::Base
     def execute(options = {})
-      # byebug
+
       leaderboard.leaders(
         page(options).to_i,
         page_size: page_size(options)

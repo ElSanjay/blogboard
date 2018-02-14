@@ -3,9 +3,10 @@ class ApplicationController < ActionController::Base
 
   def query_options
     options = {}
-    options[:limit] = [params.fetch(:limit, 100).to_i, 100].min
+    options[:limit] = [params.fetch(:limit, 25).to_i, 100].min
     options[:page] = params.fetch(:page, 1)
     options
+    
   end
 
 end
