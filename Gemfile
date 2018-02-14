@@ -22,6 +22,9 @@ gem 'semantic-ui-sass'
 gem 'leaderboard'
 gem 'kaminari'
 gem 'faker'
+gem 'omniauth-google-oauth2'
+gem "figaro"
+gem 'google-api-client', '~> 0.11', require: 'google/apis/analyticsreporting_v4'
 
 
 group :development, :test do
