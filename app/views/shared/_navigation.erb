@@ -1,16 +1,16 @@
 <div class="ui secondary menu">
   <div class="ui container">
     <a class="item">
-      Home
+      <%= link_to "Home", root_path, :class => "ui item" %>
     </a>
     <a class="item">
-      Leaderboard
+      <%= link_to "Leaderboard", leaderboards_path, :class => "ui item" %>
     </a>
 
     <div class="right menu">
       <% if !user_signed_in? %>
-        <%= link_to "Signup", new_user_registration_path, :class => "ui item" %>
-        <%= link_to "Signin", new_user_session_path, :class => "ui item "%>
+        <%= link_to "Register", new_user_registration_path, :class => "ui item" %>
+        <%= link_to "Login", new_user_session_path, :class => "ui item "%>
       <%else%>
         <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "ui item" %>
       <%end%>

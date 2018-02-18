@@ -17,7 +17,7 @@
 /yarn-error.log
 
 .byebug_history
-client_secret.json
+client_secrets.json
 
 # Ignore application configuration
 /config/application.yml
