@@ -28,28 +28,26 @@ class AuthenticationsController < ApplicationController
           "access_type" => "offline",
           "prompt" => "consent"
         }).to_s
-        byebug
+
         redirect_to auth_uri
       else
-        byebug
+
         auth_client.code = request['code']
         auth_client.fetch_access_token!
         e = Encryptor.new
-        byebug
+
         encrypted_data = e.encrypt(auth_client.client_secret)
         auth_client.client_secret = encrypted_data
 
         credentials = auth_client.to_json
 
-        byebug
+
         current_user.update(provider: credentials)
 
 
-        @api = api_call(current_user.uid, current_user.provider)
-
-        # session.delete("credentials")
-
-        # create_update_db(@api)
+        api = api_call(current_user.uid, current_user.provider)
+        current_user.update_database(api)
+        current_user.update_leaderboard("mainboard")
 
         redirect_to authentications_path
 
@@ -61,16 +59,12 @@ class AuthenticationsController < ApplicationController
   def api_update
     view_id = current_user.uid
     auth = current_user.provider
-    # client_secrets = Google::APIClient::ClientSecrets.load
-    # auth_client = client_secrets.to_authorization
 
-    if api_call(view_id, auth)
-      flash[:notice] = "You have sucessfully update your data"
-      redirect_to authentications_path
-    else
-      flash[:alert] = "Something is wrong, please try again later"
-      render "authentications/show"
-    end
+    api = api_call(view_id, auth)
+    current_user.update_database(api)
+    current_user.update_leaderboard("mainboard")
+    redirect_to authentications_path
+
   end
 
   def auto_update
@@ -78,19 +72,25 @@ class AuthenticationsController < ApplicationController
     @users.each do |user|
       view_id = user.uid
       auth = user.provider
-      api_call(view_id, auth)
+      api = api_call(view_id, auth)
+
+      user.update_database(api)
+      user.update_leaderboard("mainboard")
+
+
     end
     redirect_to test_index_path
   end
 
   private
 
+
   def api_call(view_id, auth)
-    byebug
+
     analytics = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
     credentials =  JSON.parse(auth)
     e = Encryptor.new
-    byebug
+    
     decrypt = e.decrypt(credentials["client_secret"])
     credentials["client_secret"] = decrypt
     auth_client = Signet::OAuth2::Client.new(credentials)

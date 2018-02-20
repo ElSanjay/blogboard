@@ -5,7 +5,7 @@ class LeaderboardsController < ApplicationController
     @lb = Boards.default_leaderboard
 
     @entries = entry_service.execute(query_options)
-    # byebug
+
     respond_to do |format|
       format.html do
         paginate(query_options)
@@ -25,6 +25,7 @@ class LeaderboardsController < ApplicationController
         @entries,
         total_count: @lb.total_members)
       @page_array = pager.page(options[:page]).per(options[:limit])
+      
     end
 
 

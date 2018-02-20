@@ -1,5 +1,5 @@
 module Boards
-  DEFAULT_BOARD = 'blogboard'
+  DEFAULT_BOARD = 'mainboard'
 
   def self.default_leaderboard
     Leaderboard.new(
@@ -9,10 +9,10 @@ module Boards
     )
   end
 
+
   def self.default_options
     Leaderboard::DEFAULT_OPTIONS.merge(
-      page_size: 25,
-      score_key: :session
+      page_size: 25
     )
   end
 
