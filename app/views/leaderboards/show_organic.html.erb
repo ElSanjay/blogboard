@@ -1,0 +1,22 @@
+<table class="ui selectable inverted table">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+
+      <th class="right aligned">Sessions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@entries.each do |entry|%>
+    <tr>
+      <td><%=entry[:rank]%></td>
+      <td><%=entry[:member]%></td>
+
+      <td class="right aligned"><%=entry[:score]%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
+
+<%= paginate @page_array %>

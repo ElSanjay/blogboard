@@ -2,10 +2,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def query_options
+  def query_options(name)
     options = {}
-    options[:limit] = [params.fetch(:limit, 25).to_i, 100].min
-    options[:page] = params.fetch(:page, 1)
+    # options[:limit] = [params.fetch(:limit, 25).to_i, 100].min
+    # options[:page] = params.fetch(:page, 1)
+    options[:limit] = 25
+    options[:page] = 1
+    options[:name] = name
     options
 
   end

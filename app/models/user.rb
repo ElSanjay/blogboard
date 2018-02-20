@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
   def update_database(api)
     self.update(data: api)
-    
+
   end
 
   def update_leaderboard(board_type)
@@ -34,6 +34,7 @@ class User < ApplicationRecord
 
     when "mainboard"
       params = {
+        board_name: board_type,
         name: self.name,
         score: self.data["reports"].first["data"]["totals"].first["values"].first,
         id: self.id,
@@ -42,6 +43,41 @@ class User < ApplicationRecord
         email: data["Email"],
         direct: data["Direct"],
         paid: data["Paid"]
+      }
+    when "organic_search"
+      params = {
+        board_name: board_type,
+        name: self.name,
+        score: data["Organic Search"],
+        id: self.id
+      }
+    when "social"
+      params = {
+        board_name: board_type,
+        name: self.name,
+        score: data["Social"],
+        id: self.id
+      }
+    when "email"
+      params = {
+        board_name: board_type,
+        name: self.name,
+        score: data["Email"],
+        id: self.id
+      }
+    when "direct"
+      params = {
+        board_name: board_type,
+        name: self.name,
+        score: data["Direct"],
+        id: self.id
+      }
+    when "paid"
+      params = {
+        board_name: board_type,
+        name: self.name,
+        score: data["Paid"],
+        id: self.id
       }
     end
 

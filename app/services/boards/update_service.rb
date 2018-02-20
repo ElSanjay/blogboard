@@ -12,7 +12,7 @@ module Boards
         paid: entry_params[:paid]
       }
 
-      leaderboard.rank_member(name, score, {
+      leaderboard(entry_params[:board_name]).rank_member(name, score, {
         id: id,
         data: {
           organic: data[:organic],
@@ -22,9 +22,9 @@ module Boards
           paid: data[:paid],
         }
       }.to_json)
-      member = leaderboard.score_and_rank_for(name)
-      member[:page] = leaderboard.page_for(name, leaderboard.page_size)
-      member
+      # member = leaderboard.score_and_rank_for(name)
+      # member[:page] = leaderboard.page_for(name, leaderboard.page_size)
+      # member
     end
   end
 end

@@ -1,9 +1,9 @@
 module Boards
-  DEFAULT_BOARD = 'mainboard'
 
-  def self.default_leaderboard
+
+  def self.leaderboard(name)
     Leaderboard.new(
-      DEFAULT_BOARD,
+      name,
       default_options,
       redis_connection: Redis.current
     )
@@ -17,8 +17,8 @@ module Boards
   end
 
   class Base
-    def leaderboard
-      @leaderboard ||= Boards.default_leaderboard
+    def leaderboard(name)
+      @leaderboard ||= Boards.leaderboard(name)
     end
   end
 end

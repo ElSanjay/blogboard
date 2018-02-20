@@ -1,7 +1,8 @@
 module Boards
   class GetAllService < Boards::Base
     def execute(options = {})
-      leaderboard.leaders(
+      
+      leaderboard(options[:name]).leaders(
         page(options).to_i,
         page_size: page_size(options),
         with_member_data: true

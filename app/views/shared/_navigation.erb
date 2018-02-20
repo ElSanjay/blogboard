@@ -3,9 +3,35 @@
     <a class="item">
       <%= link_to "Home", root_path, :class => "ui item" %>
     </a>
-    <a class="item">
-      <%= link_to "Leaderboard", leaderboards_path, :class => "ui item" %>
-    </a>
+
+      <div class="item ui dropdown">
+        <div class="text">Leaderboard</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item">
+            <%= link_to "Main Leaderboard", leaderboards_path %>
+          </div>
+          <div class="item">
+          <%= link_to "Organi Search Leaderboard", organic_search_leaderboards_path %>
+          </div>
+          <div class="item">
+          <%= link_to "Social Leaderboard", social_leaderboards_path %>
+          </div>
+          <div class="item">
+          <%= link_to "Email Leaderboard", email_leaderboards_path %>
+          </div>
+          <div class="item">
+          <%= link_to "Direct Leaderboard", direct_leaderboards_path %>
+          </div>
+          <div class="item">
+          <%= link_to "Paid Leaderboard", paid_leaderboards_path %>  
+          </div>
+
+        </div>
+      </div>
+
+
+
 
     <div class="right menu">
       <% if !user_signed_in? %>

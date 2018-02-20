@@ -48,7 +48,11 @@ class AuthenticationsController < ApplicationController
         api = api_call(current_user.uid, current_user.provider)
         current_user.update_database(api)
         current_user.update_leaderboard("mainboard")
-
+        current_user.update_leaderboard("organic_search")
+        current_user.update_leaderboard("social")
+        current_user.update_leaderboard("email")
+        current_user.update_leaderboard("direct")
+        current_user.update_leaderboard("paid")
         redirect_to authentications_path
 
 
@@ -63,6 +67,11 @@ class AuthenticationsController < ApplicationController
     api = api_call(view_id, auth)
     current_user.update_database(api)
     current_user.update_leaderboard("mainboard")
+    current.update_leaderboard("organic_search")
+    current_user.update_leaderboard("social")
+    current_user.update_leaderboard("email")
+    current_user.update_leaderboard("direct")
+    current_user.update_leaderboard("paid")
     redirect_to authentications_path
 
   end
@@ -76,6 +85,11 @@ class AuthenticationsController < ApplicationController
 
       user.update_database(api)
       user.update_leaderboard("mainboard")
+      user.update_leaderboard("organic_search")
+      user.update_leaderboard("social")
+      user.update_leaderboard("email")
+      user.update_leaderboard("direct")
+      user.update_leaderboard("paid")
 
 
     end
@@ -90,7 +104,7 @@ class AuthenticationsController < ApplicationController
     analytics = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
     credentials =  JSON.parse(auth)
     e = Encryptor.new
-    
+
     decrypt = e.decrypt(credentials["client_secret"])
     credentials["client_secret"] = decrypt
     auth_client = Signet::OAuth2::Client.new(credentials)

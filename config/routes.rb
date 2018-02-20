@@ -14,6 +14,11 @@ Rails.application.routes.draw do
   get 'home/index'
 
   get 'leaderboards', to: 'leaderboards#show'
+  get 'organic-search-leaderboards', to: 'leaderboards#show_organic'
+  get 'social-leaderboards', to: 'leaderboards#show_social'
+  get 'email-leaderboards', to: 'leaderboards#show_email'
+  get 'direct-leaderboards', to: 'leaderboards#show_direct'
+  get 'paid-leaderboards', to: 'leaderboards#show_paid'
 
   root to: "home#index"
 end
