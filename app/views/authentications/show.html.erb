@@ -1,5 +1,5 @@
 
-<%if current_user.provider%>
+<%if current_user.view_id%>
   <h2>If you like to update your data please click the button below</h2>
   <%= link_to "Update", authentications_api_update_path, :class => "ui button" %>
 <%else%>
@@ -9,7 +9,7 @@
 <%=form_tag({:action => 'auth', :controller => 'authentications'}, {:method => :get}) do %>
   <%= label_tag(:view_id, "View ID:") %>
   <%= text_field_tag(:view_id) %>
-  <%= submit_tag("Authenticate") %>
+  <%= submit_tag("Connect") %>
 <%end%>
 
 <%end%>

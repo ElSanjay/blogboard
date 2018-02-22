@@ -25,6 +25,11 @@ gem 'faker'
 gem 'omniauth-google-oauth2'
 gem "figaro"
 gem 'google-api-client', '~> 0.11', require: 'google/apis/analyticsreporting_v4'
+# gem 'rest-client', '~> 1.8'
+gem 'httparty'
+gem 'sidekiq'
+gem 'whenever', require: false
+
 
 
 group :development, :test do
@@ -33,6 +38,8 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers', '~> 3.0'
+  gem 'database_cleaner'
+  gem 'webmock'
 
 
 end

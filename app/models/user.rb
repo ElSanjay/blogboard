@@ -6,19 +6,46 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2]
 
 
-  def self.from_omniauth(access_token)
-           data = access_token.info
 
-           user = User.where(email: data['email']).first
-           # Uncomment the section below if you want users to be created if they don't exist
-          unless user
-              user = User.create(
-                 email: data['email'],
-                 password: Devise.friendly_token[0,20]
-              )
-          end
-           user
+  def self.from_omniauth(auth)
+   where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
+     user.provider = auth.provider
+     user.uid = auth.uid
+     user.email = auth.info.email
+     user.name = auth.info.name
+     user.image = auth.info.image
+     user.password = Devise.friendly_token[0,20]
+     user.access_token = auth.credentials.token
+     user.refresh_token = auth.credentials.refresh_token
+     user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+     user.save!
+   end
+ end
+
+ def refresh_token_if_expired
+    if token_expired?
+      response = RestClient.post "https://accounts.google.com/o/oauth2/token", :grant_type => 'refresh_token', :refresh_token => self.refresh_token, :client_id => ENV['GOOGLE_CLIENT_ID'], :client_secret => ENV['GOOGLE_CLIENT_SECRET']
+      refreshhash = JSON.parse(response.body)
+
+      access_token_will_change!
+      oauth_expires_at_will_change!
+
+      self.access_token = refreshhash['access_token']
+      self.oauth_expires_at = DateTime.now + refreshhash["expires_in"].to_i.seconds
+
+      self.save
+      puts 'Saved'
+    end
   end
+
+  def token_expired?
+    expiry = Time.at(self.oauth_expires_at)
+    return true if expiry < Time.now
+    token_expires_at = expiry
+    save if changed?
+    false
+  end
+
 
   def update_database(api)
     self.update(data: api)
@@ -26,6 +53,7 @@ class User < ApplicationRecord
   end
 
   def update_leaderboard(board_type)
+
     data = {}
     self.data["reports"].first["data"]["rows"].each { |item|
       data[item["dimensions"].first]=item["metrics"].first["values"].first
@@ -82,5 +110,66 @@ class User < ApplicationRecord
     end
 
     Boards::UpdateService.new.execute(params)
+  end
+
+  def api_call
+
+    analytics = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
+
+    refresh(self)
+
+    auth_client = Signet::OAuth2::Client.new(
+      access_token: self.access_token
+    )
+    auth_client.expires_in = Time.now + 1_000_000
+    analytics.authorization = auth_client
+
+    date_range = Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: '30DaysAgo', end_date: 'today')
+    dimension = Google::Apis::AnalyticsreportingV4::Dimension.new(name: 'ga:channelGrouping')
+
+    request = Google::Apis::AnalyticsreportingV4::GetReportsRequest.new(
+      report_requests: [Google::Apis::AnalyticsreportingV4::ReportRequest.new(
+        view_id: self.view_id,
+         dimensions: [dimension],
+         date_ranges: [date_range]
+      )]
+    )
+
+    response = analytics.batch_get_reports(request)
+
+  end
+
+  def refresh(user)
+    # Refresh auth token from google_oauth2.
+     options = {
+      body: {
+        client_id: ENV['GOOGLE_CLIENT_ID'],
+        client_secret: ENV['GOOGLE_CLIENT_SECRET'],
+        refresh_token: "#{user.refresh_token}",
+        grant_type: "refresh_token"
+      },
+      headers: {
+        'Content-Type' => 'application/x-www-form-urlencoded'
+
+      }
+    }
+
+    refresh = HTTParty.post("https://accounts.google.com/o/oauth2/token", options)
+
+      if refresh.code == 200
+
+        user.access_token = refresh.parsed_response['access_token']
+        user.save
+      end
+  end
+  
+  def update_db_and_leaderboard(data, user)
+    user.update_database(data)
+    user.update_leaderboard("mainboard")
+    user.update_leaderboard("organic_search")
+    user.update_leaderboard("social")
+    user.update_leaderboard("email")
+    user.update_leaderboard("direct")
+    user.update_leaderboard("paid")
   end
 end

@@ -13,7 +13,26 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
+
 RSpec.configure do |config|
+
+  config.before(:each) do
+    stub_request(:post, "https://accounts.google.com/o/oauth2/token").
+    with(body: {"client_id"=>"816532793268-2f1brtqmrmiksre0a1vo73jrge1jvs56.apps.googleusercontent.com", "client_secret"=>"mDoHac7IBcsdVY1u2VKYhVsV", "grant_type"=>"refresh_token", "refresh_token"=>"REFRESH_TOKEN"},
+         headers: {
+        'Content-Type'=>'application/x-www-form-urlencoded'
+         }).
+       to_return(status: 200, body: "{'access_token': 'new_access_token'}", headers: {})
+
+    stub_request(:post, "https://analyticsreporting.googleapis.com/v4/reports:batchGet").
+           with(
+             body:  "{\"reportRequests\":[{\"dateRanges\":[{\"endDate\":\"today\",\"startDate\":\"30DaysAgo\"}],\"dimensions\":[{\"name\":\"ga:channelGrouping\"}],\"viewId\":\"\"}]}",
+             ).
+           to_return(status: 200, body: "{\"reports\":[{\"column_header\":{\"dimensions\":[\"ga:channelGrouping\"],\"metric_header\":{\"metric_header_entries\":[{\"name\":\"ga:visits\",\"type\":\"INTEGER\"}]}},\"data\":{\"maximums\":[{\"values\":[\"288\"]}],\"minimums\":[{\"values\":[\"1\"]}],\"row_count\":4,\"rows\":[{\"dimensions\":[\"(Other)\"],\"metrics\":[{\"values\":[\"1\"]}]},{\"dimensions\":[\"Direct\"],\"metrics\":[{\"values\":[\"171\"]}]},{\"dimensions\":[\"Organic Search\"],\"metrics\":[{\"values\":[\"288\"]}]},{\"dimensions\":[\"Referral\"],\"metrics\":[{\"values\":[\"1\"]}]}],\"totals\":[{\"values\":[\"461\"]}]}}]}", headers: {"Content-Type"=> "application/json"})
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
