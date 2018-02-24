@@ -5,6 +5,7 @@ module Boards
       score = entry_params[:score].to_i
       id = entry_params[:id]
       data = {
+        avatar: entry_params[:avatar],
         organic: entry_params[:organic],
         social: entry_params[:social],
         email: entry_params[:email],
@@ -15,6 +16,7 @@ module Boards
       leaderboard(entry_params[:board_name]).rank_member(name, score, {
         id: id,
         data: {
+          avatar: data[:avatar],
           organic: data[:organic],
           social: data[:social],
           email: data[:email],
@@ -22,6 +24,7 @@ module Boards
           paid: data[:paid],
         }
       }.to_json)
+
       # member = leaderboard.score_and_rank_for(name)
       # member[:page] = leaderboard.page_for(name, leaderboard.page_size)
       # member

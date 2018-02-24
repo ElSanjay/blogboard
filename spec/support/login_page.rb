@@ -3,7 +3,7 @@ class LoginPage
 
   def authenticate
 
-    visit("/users/sign_in")
+    visit("/")
     OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new({
 
        :provider => 'google_oauth2',
@@ -22,7 +22,7 @@ class LoginPage
        # etc.
    })
 
-		click_on("Signin with Google")
+		click_on("Authenticate")
 
   end
 

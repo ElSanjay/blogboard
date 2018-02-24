@@ -22,30 +22,6 @@ class User < ApplicationRecord
    end
  end
 
- def refresh_token_if_expired
-    if token_expired?
-      response = RestClient.post "https://accounts.google.com/o/oauth2/token", :grant_type => 'refresh_token', :refresh_token => self.refresh_token, :client_id => ENV['GOOGLE_CLIENT_ID'], :client_secret => ENV['GOOGLE_CLIENT_SECRET']
-      refreshhash = JSON.parse(response.body)
-
-      access_token_will_change!
-      oauth_expires_at_will_change!
-
-      self.access_token = refreshhash['access_token']
-      self.oauth_expires_at = DateTime.now + refreshhash["expires_in"].to_i.seconds
-
-      self.save
-      puts 'Saved'
-    end
-  end
-
-  def token_expired?
-    expiry = Time.at(self.oauth_expires_at)
-    return true if expiry < Time.now
-    token_expires_at = expiry
-    save if changed?
-    false
-  end
-
 
   def update_database(api)
     self.update(data: api)
@@ -64,6 +40,7 @@ class User < ApplicationRecord
       params = {
         board_name: board_type,
         name: self.name,
+        avatar: self.image,
         score: self.data["reports"].first["data"]["totals"].first["values"].first,
         id: self.id,
         organic: data["Organic Search"],
@@ -76,6 +53,7 @@ class User < ApplicationRecord
       params = {
         board_name: board_type,
         name: self.name,
+        avatar: self.image,
         score: data["Organic Search"],
         id: self.id
       }
@@ -83,6 +61,7 @@ class User < ApplicationRecord
       params = {
         board_name: board_type,
         name: self.name,
+        avatar: self.image,
         score: data["Social"],
         id: self.id
       }
@@ -90,6 +69,7 @@ class User < ApplicationRecord
       params = {
         board_name: board_type,
         name: self.name,
+        avatar: self.image,
         score: data["Email"],
         id: self.id
       }
@@ -97,6 +77,7 @@ class User < ApplicationRecord
       params = {
         board_name: board_type,
         name: self.name,
+        avatar: self.image,
         score: data["Direct"],
         id: self.id
       }
@@ -104,6 +85,7 @@ class User < ApplicationRecord
       params = {
         board_name: board_type,
         name: self.name,
+        avatar: self.image,
         score: data["Paid"],
         id: self.id
       }
@@ -162,14 +144,14 @@ class User < ApplicationRecord
         user.save
       end
   end
-  
-  def update_db_and_leaderboard(data, user)
-    user.update_database(data)
-    user.update_leaderboard("mainboard")
-    user.update_leaderboard("organic_search")
-    user.update_leaderboard("social")
-    user.update_leaderboard("email")
-    user.update_leaderboard("direct")
-    user.update_leaderboard("paid")
+
+  def update_db_and_leaderboard(data)
+    self.update_database(data)
+    self.update_leaderboard("mainboard")
+    self.update_leaderboard("organic_search")
+    self.update_leaderboard("social")
+    self.update_leaderboard("email")
+    self.update_leaderboard("direct")
+    self.update_leaderboard("paid")
   end
 end

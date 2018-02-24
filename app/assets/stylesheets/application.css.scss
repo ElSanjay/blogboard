@@ -14,4 +14,81 @@
  *= require_self
  */
 
- @import "semantic-ui"
+ @import "semantic-ui";
+
+ body {
+   background-image: url(asset_path("bg.png"));
+ }
+
+
+ .table-wrap {
+   position: relative;
+   text-align: center;
+   // top: -100px;
+ }
+
+ .table-width {
+   width: 80%!important;
+   display: inline-table;
+   position: relative;
+
+
+ }
+ .ui.inverted.purple.table {
+   background-color: #ac156a !important
+ }
+
+ .avatar img {
+   width: 50px;
+   border-radius: 50%;
+ }
+
+ .avatar {
+   float: left;
+ }
+
+ .name {
+   position: relative;
+   top: 12px;
+   left: 10px;
+ }
+
+ .first-table {
+   border-color: white!important;
+ }
+
+ .td-first {
+   height: 100px;
+
+ }
+
+ .first-row-wrapper {
+    position: absolute;
+    top: 180px;
+    z-index: 10;
+    width: 100%;
+    margin-left: 50%;
+    left: -50%;
+    text-align: center;
+
+ }
+
+ .first-row {
+   padding-top: 10px;
+   display: inline-block;
+   width: 1000px;
+   background-color: white;
+   height: 100px;
+   border-radius: 5px;
+ }
+
+
+
+ .first-rank-row {
+   width: 100px;
+ }
+
+
+ .first-name-row {
+   width: 200px
+ }

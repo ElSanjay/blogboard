@@ -1,11 +1,12 @@
 class LeaderboardsController < ApplicationController
-  # before_action :query_options
+  before_action :check_page_params
 
   def show
+
     @lb = Boards.leaderboard("mainboard")
 
     @entries = entry_service.execute(query_options("mainboard"))
-
+    
     respond_to do |format|
       format.html do
         paginate(query_options("mainboard"))
@@ -91,7 +92,17 @@ class LeaderboardsController < ApplicationController
         total_count: @lb.total_members)
       @page_array = pager.page(options[:page]).per(options[:limit])
 
-    end
+  end
+
+def check_page_params
+  @page = params[:page] || nil
+
+  if @page
+    @drop = 0
+  else
+    @drop = 1
+  end
+end
 
 
 

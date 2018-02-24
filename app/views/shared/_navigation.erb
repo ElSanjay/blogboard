@@ -1,8 +1,5 @@
 <div class="ui secondary menu">
   <div class="ui container">
-    <a class="item">
-      <%= link_to "Home", root_path, :class => "ui item" %>
-    </a>
 
       <div class="item ui dropdown">
         <div class="text">Leaderboard</div>
@@ -35,8 +32,13 @@
 
     <div class="right menu">
       <% if !user_signed_in? %>
-        <%= link_to "Login", new_user_session_path, :class => "ui item "%>
+        <%= link_to "Authenticate", user_google_oauth2_omniauth_authorize_path, :class => "ui item "%>
       <%else%>
+
+
+        <%= link_to "Update Data", authentications_path, :class => "ui item" %>
+
+
         <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "ui item" %>
       <%end%>
     </div>

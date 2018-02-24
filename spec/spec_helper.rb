@@ -28,7 +28,7 @@ RSpec.configure do |config|
 
     stub_request(:post, "https://analyticsreporting.googleapis.com/v4/reports:batchGet").
            with(
-             body:  "{\"reportRequests\":[{\"dateRanges\":[{\"endDate\":\"today\",\"startDate\":\"30DaysAgo\"}],\"dimensions\":[{\"name\":\"ga:channelGrouping\"}],\"viewId\":\"\"}]}",
+             body:  "{\"reportRequests\":[{\"dateRanges\":[{\"endDate\":\"today\",\"startDate\":\"30DaysAgo\"}],\"dimensions\":[{\"name\":\"ga:channelGrouping\"}],\"viewId\":\"12345\"}]}",
              ).
            to_return(status: 200, body: "{\"reports\":[{\"column_header\":{\"dimensions\":[\"ga:channelGrouping\"],\"metric_header\":{\"metric_header_entries\":[{\"name\":\"ga:visits\",\"type\":\"INTEGER\"}]}},\"data\":{\"maximums\":[{\"values\":[\"288\"]}],\"minimums\":[{\"values\":[\"1\"]}],\"row_count\":4,\"rows\":[{\"dimensions\":[\"(Other)\"],\"metrics\":[{\"values\":[\"1\"]}]},{\"dimensions\":[\"Direct\"],\"metrics\":[{\"values\":[\"171\"]}]},{\"dimensions\":[\"Organic Search\"],\"metrics\":[{\"values\":[\"288\"]}]},{\"dimensions\":[\"Referral\"],\"metrics\":[{\"values\":[\"1\"]}]}],\"totals\":[{\"values\":[\"461\"]}]}}]}", headers: {"Content-Type"=> "application/json"})
   end

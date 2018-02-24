@@ -30,6 +30,7 @@ gem 'httparty'
 gem 'sidekiq'
 gem 'whenever', require: false
 
+gem 'redis'
 
 
 group :development, :test do

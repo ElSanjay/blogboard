@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  mount ActionCable.server => '/cable'
   get 'authentications', to: 'authentications#show'
   get 'authentications/auth'
   get 'authentications/api_update'
@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   get 'direct-leaderboards', to: 'leaderboards#show_direct'
   get 'paid-leaderboards', to: 'leaderboards#show_paid'
 
-  root to: "home#index"
+  root to: "leaderboards#show"
 end
