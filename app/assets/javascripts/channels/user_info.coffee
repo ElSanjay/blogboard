@@ -7,7 +7,8 @@ App.user_info = App.cable.subscriptions.create "UserInfoChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    console.log data['message']
+    
+      console.log data['message']
 
-    $('#push p').append data['message']
-    $('#push').removeClass 'hidden'
+      $('#push p').append data['message']
+      $('#push').removeClass 'hidden'

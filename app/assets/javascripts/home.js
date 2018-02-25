@@ -6,6 +6,7 @@ document.addEventListener("turbolinks:load", function() {
     $(this)
       .closest('.message')
       .transition('fade')
+      $('#push p').empty()
     ;
   })
 ;
