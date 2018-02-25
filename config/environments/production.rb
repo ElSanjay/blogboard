@@ -10,7 +10,7 @@ Rails.application.configure do
     enable_starttls_auto: true  }
 
   config.middleware.use UserInfoActionCable
-  config.web_socket_server_url = "wss://blogleader.herokuapp.com"
+  config.web_socket_server_url = "wss://blogleader.herokuapp.com/"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
