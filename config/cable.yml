@@ -6,9 +6,9 @@ development: &development
   :inline: true
 test: *development
 production: &production
-  :url: redis://h:pe7432745792a08a340e4fd6a76366667adaf21430686004b25d32102896f6985@ec2-34-198-143-216.compute-1.amazonaws.com:16879
-  :host: ec2-34-198-143-216.compute-1.amazonaws.com
-  :port: 16879
+  :url: redis://h:p0e3f70f851c2cb7693020361068e1dc33dc474f4501f41669cfb5e5cdb821514@ec2-35-153-9-69.compute-1.amazonaws.com:64139
+  :host: ec2-35-153-9-69.compute-1.amazonaws.com
+  :port: 64139
   :password: pe7432745792a08a340e4fd6a76366667adaf21430686004b25d32102896f6985
   :inline: true
   :timeout: 1
