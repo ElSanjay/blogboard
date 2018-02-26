@@ -3,25 +3,13 @@
 
 <div class="ui two column centered grid">
   <div class="column">
-    <h1 class="ui header">
-      <%if current_user.view_id%>
-        <h2>If you like to update your View ID please replace the ID below and update</h2>
-
-      <%else%>
-
-        <h2>Please provide your Google Analytic View ID to connect and update</h2>
-      <%end%>
-    </h1>
+    <%= render :partial => "auth_header"%>
   </div>
 
 </div>
 <div class="ui two column centered grid">
   <div class="column">
-    <%=form_tag({:action => 'auth', :controller => 'authentications'}, {:method => :get, :remote => true, :class => 'ui form', :id => 'auth-form'}) do %>
-
-      <%= text_field_tag(:view_id, current_user.view_id) %>
-      <%= submit_tag("Update", {:class => 'ui button'}) %>
-    <%end%>
+    <%= render :partial => "auth_form"%>
   </div>
 
 </div>

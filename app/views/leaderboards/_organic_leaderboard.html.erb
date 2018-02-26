@@ -1,0 +1,69 @@
+<%if !@page %>
+<div class="first-row">
+  <table class="ui table center first-table">
+    <tr>
+      <td class="first-rank-row"><%=@entries.first ? @entries.first[:rank] : nil %></td>
+      <td class="left aligned first-name-row">
+        <div class="avatar">
+            <img src=<%= @entries.first ? JSON.parse(@entries.first[:member_data])["data"]["avatar"] : nil %> alt="">
+        </div>
+        <div class="name">
+            <%=@entries.first ? @entries.first[:member] : nil %>
+        </div>
+
+      </td>
+
+      <td class="right aligned"><%= @entries.first ? @entries.first[:score] : nil %></td>
+    </tr>
+  </table>
+</div>
+<%end%>
+</div>
+
+<div class="table-wrap">
+<table class="ui selectable inverted table table-width large purple">
+  <thead class="center aligned">
+    <tr>
+      <th colspan="9">
+        ORGANIC <br>
+        SEARCH
+      </th>
+    </tr>
+  </thead>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+
+      <th class="right aligned">Sessions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%if !@page %>
+    <tr>
+
+        <td class="td-first">
+
+        </td>
+
+    </tr>
+    <%end%>
+    <%@entries.drop(@drop).each do |entry|%>
+    <tr>
+      <td><%=entry[:rank]%></td>
+      <td>
+        <div class="avatar">
+            <img src=<%= JSON.parse(entry[:member_data])["data"]["avatar"]%> alt="">
+        </div>
+        <div class="name">
+          <%=entry[:member]%>
+        </div>
+      </td>
+
+      <td class="right aligned"><%=entry[:score]%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
+
+<%= paginate @page_array %>

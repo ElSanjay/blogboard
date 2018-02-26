@@ -1,0 +1,5 @@
+<%=form_tag({:action => 'auth', :controller => 'authentications'}, {:method => :get, :remote => true, :class => 'ui form', :id => 'auth-form'}) do %>
+
+  <%= text_field_tag(:view_id, current_user.view_id) %>
+  <%= submit_tag("Update", {:class => 'ui button'}) %>
+<%end%>

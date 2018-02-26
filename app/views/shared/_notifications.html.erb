@@ -1,0 +1,23 @@
+<% if notice || alert %>
+  <div class="ui message">
+    <i class="close icon"></i>
+    <div class="header">
+      <% if notice %>
+        Notice
+      <%end%>
+      <% if alert %>
+        Alert
+      <%end%>
+    </div>
+    <p><%= notice %></p>
+    <p><%= alert %></p>
+  </div>
+<% end %>
+
+<div id="push" class="ui message transition hidden">
+<i class="close icon"></i>
+<div class="header">
+</div>
+<p></p>
+
+</div>

@@ -1,0 +1,157 @@
+<%if !@page %>
+<div class="first-row">
+  <table class="ui table center first-table">
+    <tr>
+      <td class="first-rank-row"><%=@entries.first ? @entries.first[:rank] : nil %></td>
+      <td class="left aligned first-name-row">
+        <div class="avatar">
+            <img src=<%= @entries.first ? JSON.parse(@entries.first[:member_data])["data"]["avatar"] : nil %> alt="">
+        </div>
+        <div class="name">
+          <%= @entries.first ? @entries.first[:member] : nil %>
+        </div>
+
+      </td>
+      <td class="right aligned">
+        <% if @entries.first %>
+        <%if JSON.parse(@entries.first[:member_data])["data"]["organic"]%>
+          <%=JSON.parse(@entries.first[:member_data])["data"]["organic"]%>
+        <%else%>
+          0
+        <%end%>
+        <%end%>
+      </td>
+      <td class="right aligned">
+        <% if @entries.first %>
+        <%if JSON.parse(@entries.first[:member_data])["data"]["social"]%>
+          <%=JSON.parse(@entries.first[:member_data])["data"]["social"]%>
+        <%else%>
+          0
+        <%end%>
+        <%end%>
+      </td>
+      <td class="right aligned">
+        <% if @entries.first %>
+        <%if JSON.parse(@entries.first[:member_data])["data"]["email"]%>
+          <%=JSON.parse(@entries.first[:member_data])["data"]["email"]%>
+        <%else%>
+          0
+        <%end%>
+        <%end%>
+      </td>
+      <td class="right aligned">
+        <% if @entries.first %>
+        <%if JSON.parse(@entries.first[:member_data])["data"]["direct"]%>
+          <%=JSON.parse(@entries.first[:member_data])["data"]["direct"]%>
+        <%else%>
+          0
+        <%end%>
+        <%end%>
+      </td>
+      <td class="right aligned">
+        <% if @entries.first %>
+        <%if JSON.parse(@entries.first[:member_data])["data"]["paid"]%>
+          <%=JSON.parse(@entries.first[:member_data])["data"]["paid"]%>
+        <%else%>
+          0
+        <%end%>
+        <%end%>
+      </td>
+      <td class="right aligned"><%=@entries.first ? @entries.first[:score] : nil %></td>
+    </tr>
+  </table>
+</div>
+<%end%>
+</div>
+
+
+<div class="table-wrap">
+
+<table class="ui selectable inverted table table-width large purple">
+  <thead class="center aligned">
+    <tr>
+      <th colspan="9">
+        THE BEST BLOGGER<br>
+        OF ALL TIME
+      </th>
+    </tr>
+  </thead>
+
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Organic</th>
+      <th>Social</th>
+      <th>Email</th>
+      <th>Direct</th>
+      <th>Paid</th>
+      <th class="right aligned">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%if !@page %>
+    <tr>
+
+        <td class="td-first">
+
+        </td>
+
+    </tr>
+    <%end%>
+    <%@entries.drop(@drop).each do |entry|%>
+
+    <tr>
+      <td><%=entry[:rank]%></td>
+      <td>
+
+        <div class="avatar">
+            <img src="<%= JSON.parse(entry[:member_data])["data"]["avatar"]%>" alt="">
+        </div>
+        <div class="name">
+          <%=entry[:member]%>
+        </div>
+
+      </td>
+      <td>
+        <%if JSON.parse(entry[:member_data])["data"]["organic"]%>
+          <%=JSON.parse(entry[:member_data])["data"]["organic"]%>
+        <%else%>
+          0
+        <%end%>
+      </td>
+      <td>
+        <%if JSON.parse(entry[:member_data])["data"]["social"]%>
+          <%=JSON.parse(entry[:member_data])["data"]["social"]%>
+        <%else%>
+          0
+        <%end%>
+      </td>
+      <td>
+        <%if JSON.parse(entry[:member_data])["data"]["email"]%>
+          <%=JSON.parse(entry[:member_data])["data"]["email"]%>
+        <%else%>
+          0
+        <%end%>
+      </td>
+      <td>
+        <%if JSON.parse(entry[:member_data])["data"]["direct"]%>
+          <%=JSON.parse(entry[:member_data])["data"]["direct"]%>
+        <%else%>
+          0
+        <%end%>
+      </td>
+      <td>
+        <%if JSON.parse(entry[:member_data])["data"]["paid"]%>
+          <%=JSON.parse(entry[:member_data])["data"]["paid"]%>
+        <%else%>
+          0
+        <%end%>
+      </td>
+      <td class="right aligned"><%=entry[:score]%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
+
+<%= paginate @page_array %>

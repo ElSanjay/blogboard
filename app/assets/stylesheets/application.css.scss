@@ -17,7 +17,10 @@
  @import "semantic-ui";
 
  body {
-   background-image: url(asset_path("bg.png"));
+
+   background-color: #349ce0;
+background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
  }
 
 
@@ -35,7 +38,7 @@
 
  }
  .ui.inverted.purple.table {
-   background-color: #ac156a !important
+   background-color: #294998 !important
  }
 
  .avatar img {
@@ -54,7 +57,8 @@
  }
 
  .first-table {
-   border-color: white!important;
+   border-color: #33C4FD!important;
+
  }
 
  .td-first {
@@ -77,11 +81,14 @@
    padding-top: 10px;
    display: inline-block;
    width: 1000px;
-   background-color: white;
+   background-color: #33C4FD;
    height: 100px;
    border-radius: 5px;
  }
 
+.first-row table {
+  background-color: #33C4FD!important;
+}
 
 
  .first-rank-row {

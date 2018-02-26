@@ -1,24 +1,15 @@
-# README
+Leaderboard App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1\. Authenticate user through google Oauth2 using devise
 
-Things you may want to cover:
+2\. Fetch Google Analytic api using token from Oauth2
 
-* Ruby version
+3\. Update database(pg)
 
-* System dependencies
+4\. Update Leaderboard using Leaderboard gem(Redis)
 
-* Configuration
+5\. Worker for Api call(Active Job/Sidekiq) and email notification(Action Maliker).
 
-* Database creation
+6\. Realtime user push notification of API/database update(Action Cable)
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+7\. Deploy to heroku https://blogleader.herokuapp.com
