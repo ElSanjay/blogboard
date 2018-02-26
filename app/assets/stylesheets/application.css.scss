@@ -99,3 +99,12 @@ background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
  .first-name-row {
    width: 200px
  }
+
+ .message {
+   position: absolute !important;
+    width: 1000px;
+    margin-left: 50%!important;
+    left: -500px;
+    z-index: 10;
+    text-align: center;
+ }
