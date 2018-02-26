@@ -34,6 +34,7 @@ class User < ApplicationRecord
     self.data["reports"].first["data"]["rows"].each { |item|
       data[item["dimensions"].first]=item["metrics"].first["values"].first
     }
+
     case board_type
 
     when "mainboard"

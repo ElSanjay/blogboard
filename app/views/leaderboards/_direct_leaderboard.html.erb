@@ -13,7 +13,7 @@
 
       </td>
 
-      <td class="right aligned"><%= @entries.first ? @entries.first[:score] : nil %></td>
+      <td class="right aligned"><%= @entries.first ? @entries.first[:score].floor : nil %></td>
     </tr>
   </table>
 </div>
@@ -60,7 +60,7 @@
         </div>
       </td>
 
-      <td class="right aligned"><%=entry[:score]%></td>
+      <td class="right aligned"><%=entry[:score].floor%></td>
     </tr>
     <%end%>
   </tbody>
