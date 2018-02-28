@@ -20,7 +20,6 @@ Devise.setup do |config|
   config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'],
   { access_type: 'offline',
     prompt: 'consent',
-    select_account: true,
     include_granted_scopes: 'true',
     scope: 'userinfo.email,userinfo.profile,analytics.readonly',
     client_options: {ssl: {ca_file: Rails.root.join("cacert.pem").to_s}}
