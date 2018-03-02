@@ -30,19 +30,22 @@ class User < ApplicationRecord
 
   def update_leaderboard(board_type)
 
+  self.data.each do |key, value|
+
     data = {}
-    self.data["reports"].first["data"]["rows"].each { |item|
+
+    self.data[key]["reports"].first["data"]["rows"].each { |item|
       data[item["dimensions"].first]=item["metrics"].first["values"].first
     }
-
+    
     case board_type
 
     when "mainboard"
       params = {
-        board_name: board_type,
+        board_name: board_type+"_"+key,
         name: self.name,
         avatar: self.image,
-        score: self.data["reports"].first["data"]["totals"].first["values"].first,
+        score: self.data[key]["reports"].first["data"]["totals"].first["values"].first,
         id: self.id,
         organic: data["Organic Search"],
         social: data["Social"],
@@ -52,7 +55,7 @@ class User < ApplicationRecord
       }
     when "organic_search"
       params = {
-        board_name: board_type,
+        board_name: board_type+"_"+key,
         name: self.name,
         avatar: self.image,
         score: data["Organic Search"],
@@ -60,7 +63,7 @@ class User < ApplicationRecord
       }
     when "social"
       params = {
-        board_name: board_type,
+        board_name: board_type+"_"+key,
         name: self.name,
         avatar: self.image,
         score: data["Social"],
@@ -68,7 +71,7 @@ class User < ApplicationRecord
       }
     when "email"
       params = {
-        board_name: board_type,
+        board_name: board_type+"_"+key,
         name: self.name,
         avatar: self.image,
         score: data["Email"],
@@ -76,7 +79,7 @@ class User < ApplicationRecord
       }
     when "direct"
       params = {
-        board_name: board_type,
+        board_name: board_type+"_"+key,
         name: self.name,
         avatar: self.image,
         score: data["Direct"],
@@ -84,7 +87,7 @@ class User < ApplicationRecord
       }
     when "paid"
       params = {
-        board_name: board_type,
+        board_name: board_type+"_"+key,
         name: self.name,
         avatar: self.image,
         score: data["Paid"],
@@ -93,9 +96,12 @@ class User < ApplicationRecord
     end
 
     Boards::UpdateService.new.execute(params)
+
+  end
   end
 
   def api_call
+    datas = {}
 
     analytics = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
 
@@ -107,19 +113,34 @@ class User < ApplicationRecord
     auth_client.expires_in = Time.now + 1_000_000
     analytics.authorization = auth_client
 
-    date_range = Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: '30DaysAgo', end_date: 'today')
+    dates = {
+      last_month: Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: Date.today.prev_month.beginning_of_month, end_date: Date.today.prev_month.end_of_month),
+      this_month: Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: Date.today.beginning_of_month, end_date: 'today'),
+      last_week: Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: Date.today.prev_week, end_date: Date.today.prev_week.end_of_week),
+      this_week: Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: Date.today.beginning_of_week, end_date: 'today')
+    }
+    # custom = Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: '30DaysAgo', end_date: 'today')
+
+    # date_range = Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: '30DaysAgo', end_date: 'today')
     dimension = Google::Apis::AnalyticsreportingV4::Dimension.new(name: 'ga:channelGrouping')
 
-    request = Google::Apis::AnalyticsreportingV4::GetReportsRequest.new(
-      report_requests: [Google::Apis::AnalyticsreportingV4::ReportRequest.new(
-        view_id: self.view_id,
-         dimensions: [dimension],
-         date_ranges: [date_range]
-      )]
-    )
+    dates.each do |key, date|
+      request = Google::Apis::AnalyticsreportingV4::GetReportsRequest.new(
+        report_requests: [Google::Apis::AnalyticsreportingV4::ReportRequest.new(
+          view_id: self.view_id,
+          dimensions: [dimension],
+          date_ranges: [date]
+        )]
+      )
 
-    response = analytics.batch_get_reports(request)
 
+      response = analytics.batch_get_reports(request)
+
+      datas[key] = response
+
+
+    end
+    datas
   end
 
   def refresh(user)
@@ -147,7 +168,9 @@ class User < ApplicationRecord
   end
 
   def update_db_and_leaderboard(data)
+
     self.update_database(data)
+
     self.update_leaderboard("mainboard")
     self.update_leaderboard("organic_search")
     self.update_leaderboard("social")

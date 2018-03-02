@@ -3,13 +3,12 @@ class LeaderboardsController < ApplicationController
 
   def show
 
-    @lb = Boards.leaderboard("mainboard")
+    @lb = Boards.leaderboard("mainboard_#{params[:board]}")
 
-    @entries = entry_service.execute(query_options("mainboard"))
-    
+    @entries = entry_service.execute(query_options("mainboard_#{params[:board]}"))
     respond_to do |format|
       format.html do
-        paginate(query_options("mainboard"))
+        paginate(query_options("mainboard_#{params[:board]}"))
       end
 
     end
@@ -17,12 +16,12 @@ class LeaderboardsController < ApplicationController
 
   def show_organic
 
-    @lb = Boards.leaderboard("organic_search")
-    @entries = entry_service.execute(query_options("organic_search"))
+    @lb = Boards.leaderboard("organic_search_#{params[:board]}")
+    @entries = entry_service.execute(query_options("organic_search_#{params[:board]}"))
 
     respond_to do |format|
       format.html do
-        paginate(query_options("organic_search"))
+        paginate(query_options("organic_search_#{params[:board]}"))
       end
     end
 
@@ -30,12 +29,12 @@ class LeaderboardsController < ApplicationController
 
   def show_social
 
-    @lb = Boards.leaderboard("social")
-    @entries = entry_service.execute(query_options("social"))
+    @lb = Boards.leaderboard("social_#{params[:board]}")
+    @entries = entry_service.execute(query_options("social_#{params[:board]}"))
 
     respond_to do |format|
       format.html do
-        paginate(query_options("social"))
+        paginate(query_options("social_#{params[:board]}"))
       end
     end
 
@@ -43,12 +42,12 @@ class LeaderboardsController < ApplicationController
 
   def show_email
 
-    @lb = Boards.leaderboard("email")
-    @entries = entry_service.execute(query_options("email"))
+    @lb = Boards.leaderboard("email_#{params[:board]}")
+    @entries = entry_service.execute(query_options("email_#{params[:board]}"))
 
     respond_to do |format|
       format.html do
-        paginate(query_options("email"))
+        paginate(query_options("email_#{params[:board]}"))
       end
     end
 
@@ -56,12 +55,12 @@ class LeaderboardsController < ApplicationController
 
   def show_direct
 
-    @lb = Boards.leaderboard("direct")
-    @entries = entry_service.execute(query_options("direct"))
+    @lb = Boards.leaderboard("direct_#{params[:board]}")
+    @entries = entry_service.execute(query_options("direct_#{params[:board]}"))
 
     respond_to do |format|
       format.html do
-        paginate(query_options("direct"))
+        paginate(query_options("direct_#{params[:board]}"))
       end
     end
 
@@ -69,12 +68,12 @@ class LeaderboardsController < ApplicationController
 
   def show_paid
 
-    @lb = Boards.leaderboard("paid")
-    @entries = entry_service.execute(query_options("paid"))
+    @lb = Boards.leaderboard("paid_#{params[:board]}")
+    @entries = entry_service.execute(query_options("paid_#{params[:board]}"))
 
     respond_to do |format|
       format.html do
-        paginate(query_options("paid"))
+        paginate(query_options("paid_#{params[:board]}"))
       end
     end
 

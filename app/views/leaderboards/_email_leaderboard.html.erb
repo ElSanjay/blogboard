@@ -5,7 +5,7 @@
       <td class="first-rank-row"><%=@entries.first ? @entries.first[:rank] : nil %></td>
       <td class="left aligned first-name-row">
         <div class="avatar">
-            <img src=<%= @entries.first ? JSON.parse(@entries.first[:member_data])["data"]["avatar"] : nil %> alt="">
+            <img src=<%= @entries.first ? JSON.parse(@entries.first[:member_data])["data"]["avatar"] : nil %>>
         </div>
         <div class="name">
             <%=@entries.first ? @entries.first[:member] : nil %>
@@ -29,6 +29,14 @@
 
       </th>
     </tr>
+  </thead>
+  <thead>
+    <tr>
+      <th colspan="9">
+        <%= render :partial => "leaderboards/shared/sort"%>
+      </th>
+    </tr>
+
   </thead>
   <thead>
     <tr>

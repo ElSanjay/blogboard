@@ -17,15 +17,32 @@
 //= require_tree .
 
 document.addEventListener("turbolinks:load", function() {
-  $('.ui.dropdown').dropdown();
+  // $('.ui.dropdown').dropdown();
 
   $('.message .close')
   .on('click', function() {
     $(this)
       .closest('.message')
       .transition('fade')
-      $('#push p').empty()
-    ;
-  })
-;
+      $('#push p').empty();
+  });
+  $(".custom-filter").hide();
+  $(".custom-filter-button").click(function() {
+
+      $(".custom-filter").show();
+      $(".default-filter").hide();
+  });
+  $(".custom-filter .close").click(function() {
+
+      $(".custom-filter").hide();
+      $(".default-filter").show();
+  });
+
+
+
+  $(".navbar .item").on("click", function() {
+
+      $(this).addClass("play");
+  });
+
 })

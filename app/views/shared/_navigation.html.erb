@@ -1,0 +1,22 @@
+<div class="ui huge stackable menu navbar">
+  <%= link_to "Main Leaderboard", leaderboards_path(:board => "this_month"), class: "item #{'active' if action_name == 'show'}" %>
+  <%= link_to "Organi Search Leaderboard", organic_search_leaderboards_path(:board => "this_month"), class: "item #{'active' if action_name == 'show_organic'}" %>
+  <%= link_to "Social Leaderboard", social_leaderboards_path(:board => "this_month"), class: "item #{'active' if action_name == 'show_social'}" %>
+  <%= link_to "Email Leaderboard", email_leaderboards_path(:board => "this_month"), class: "item #{'active' if action_name == 'show_email'}" %>
+  <%= link_to "Direct Leaderboard", direct_leaderboards_path(:board => "this_month"), class: "item #{'active' if action_name == 'show_direct'}" %>
+  <%= link_to "Paid Leaderboard", paid_leaderboards_path(:board => "this_month"), class: "item #{'active' if action_name == 'show_paid'}" %>
+
+  <div class="right menu">
+    <% if !user_signed_in? %>
+      <%= link_to "Authenticate", user_google_oauth2_omniauth_authorize_path, :class => "ui item "%>
+    <%else%>
+
+
+      <%= link_to "Update Data", authentications_path, :class => "ui item" %>
+
+
+      <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => "ui item" %>
+    <%end%>
+
+  </div>
+</div>

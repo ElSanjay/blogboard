@@ -5,12 +5,12 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  get 'leaderboards', to: 'leaderboards#show'
-  get 'organic-search-leaderboards', to: 'leaderboards#show_organic'
-  get 'social-leaderboards', to: 'leaderboards#show_social'
-  get 'email-leaderboards', to: 'leaderboards#show_email'
-  get 'direct-leaderboards', to: 'leaderboards#show_direct'
-  get 'paid-leaderboards', to: 'leaderboards#show_paid'
+  get 'leaderboards/:board', to: 'leaderboards#show', as: :leaderboards
+  get 'organic-search-leaderboards/:board', to: 'leaderboards#show_organic', as: :organic_search_leaderboards
+  get 'social-leaderboards/:board', to: 'leaderboards#show_social', as: :social_leaderboards
+  get 'email-leaderboards/:board', to: 'leaderboards#show_email', as: :email_leaderboards
+  get 'direct-leaderboards/:board', to: 'leaderboards#show_direct', as: :direct_leaderboards
+  get 'paid-leaderboards/:board', to: 'leaderboards#show_paid', as: :paid_leaderboards
 
-  root to: "leaderboards#show"
+  root to: "leaderboards#show", board: "this_month"
 end

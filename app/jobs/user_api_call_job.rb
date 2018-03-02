@@ -10,6 +10,7 @@ class UserApiCallJob < ApplicationJob
   def perform(user)
 
     api = user.api_call
+
     user.update_db_and_leaderboard(api)
 
     stream_id = "user_info_channel_#{user.id}"

@@ -1,0 +1,32 @@
+<div class="ui small menu filter">
+
+  <div class="right menu default-filter">
+    <div class="header item">Sort By</div>
+
+    <%= link_to "This Week", "this_week", class: "item" %>
+    <%= link_to "Last Week", "last_week", class: "item" %>
+    <%= link_to "This Month", "this_month", class: "item" %>
+    <%= link_to "Last Month", "last_month", class: "item" %>
+    <a class="item custom-filter-button">
+      Custom Filter
+    </a>
+  </div>
+  <div class="right menu custom-filter">
+    <div class="item">
+      <i class="close icon"></i>
+    </div>
+
+    <div class="item">
+
+      <div class="ui icon input">
+        <input name="start_date" type="text" placeholder="Start Date">
+        <input name="end_date" type="text" placeholder="End Date">
+
+      </div>
+    </div>
+    <a class="ui item filter-button">
+      Filter
+
+    </a>
+  </div>
+</div>
