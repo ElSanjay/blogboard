@@ -29,7 +29,7 @@ class User < ApplicationRecord
   end
 
   def update_leaderboard(board_type)
-
+    
   self.data.each do |key, value|
 
     data = {}
@@ -37,7 +37,7 @@ class User < ApplicationRecord
     self.data[key]["reports"].first["data"]["rows"].each { |item|
       data[item["dimensions"].first]=item["metrics"].first["values"].first
     }
-    
+
     case board_type
 
     when "mainboard"
