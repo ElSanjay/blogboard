@@ -1,10 +1,11 @@
 class AuthenticationsController < ApplicationController
-  include HTTParty
 
   before_action :authenticate_user!, :only => [:auth, :api_update]
 
 
   def show
+    
+    @user = current_user
   end
 
   def auth

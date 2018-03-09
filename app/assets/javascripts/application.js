@@ -14,10 +14,21 @@
 //= require rails-ujs
 //= require turbolinks
 //= require semantic-ui
+//= require semantic-ui-calendar/dist/calendar
 //= require_tree .
 
 document.addEventListener("turbolinks:load", function() {
   // $('.ui.dropdown').dropdown();
+
+  $('#start-date').calendar({
+    type: 'date',
+    maxDate: new Date()
+  });
+
+  $('#end-date').calendar({
+    type: 'date',
+    maxDate: new Date()
+  });
 
   $('.message .close')
   .on('click', function() {
@@ -26,6 +37,7 @@ document.addEventListener("turbolinks:load", function() {
       .transition('fade')
       $('#push p').empty();
   });
+
   $(".custom-filter").hide();
   $(".custom-filter-button").click(function() {
 
@@ -43,6 +55,14 @@ document.addEventListener("turbolinks:load", function() {
   $(".navbar .item").on("click", function() {
 
       $(this).addClass("play");
+  });
+
+  $("#filter-form").on("ajax:success", function(event) {
+      $(".dimmer").addClass("active");
+
+
+  }).on("ajax:error", function(event) {
+
   });
 
 })

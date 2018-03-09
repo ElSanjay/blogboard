@@ -16,17 +16,41 @@
       <i class="close icon"></i>
     </div>
 
-    <div class="item">
+    <div class="item custom-filter-form">
+      <%= form_with url: leaderboards_custom_filter_url, method: :get, id: "filter-form", class: "ui form" do |form| %>
+        <%= form.hidden_field :board, value: @board_name %> 
+        <div class="fields">
+          <div class="field">
+            <div class="ui calendar" id="start-date">
+              <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <%= form.text_field :start_date, placeholder: "Start Date" %>
+                <!-- <input type="text" placeholder="Start Date"> -->
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui calendar" id="end-date">
+              <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <%= form.text_field :end_date, placeholder: "End Date" %>
+                <!-- <input type="text" placeholder="End Date"> -->
+              </div>
+            </div>
+          </div>
 
-      <div class="ui icon input">
-        <input name="start_date" type="text" placeholder="Start Date">
-        <input name="end_date" type="text" placeholder="End Date">
+          <div class="field">
+            <%= form.submit "Filter", class: "ui button"%>
+          </div>
+        </div>
 
-      </div>
+
+
+
+
+      <% end %>
     </div>
-    <a class="ui item filter-button">
-      Filter
 
-    </a>
+
   </div>
 </div>

@@ -3,80 +3,30 @@ class LeaderboardsController < ApplicationController
 
   def show
 
-    @lb = Boards.leaderboard("mainboard_#{params[:board]}")
+    # if params[:filter] == "custom"
+    #   custom_api_call(params[:start_date].to_date.to_s, params[:end_date].to_date.to_s, params[:board])
+    # end
 
-    @entries = entry_service.execute(query_options("mainboard_#{params[:board]}"))
-    respond_to do |format|
-      format.html do
-        paginate(query_options("mainboard_#{params[:board]}"))
-      end
+    board = "#{params[:board]}_#{params[:filter]}"
+    @board_name = params[:board]
+    @lb = Boards.leaderboard(board)
 
-    end
-  end
-
-  def show_organic
-
-    @lb = Boards.leaderboard("organic_search_#{params[:board]}")
-    @entries = entry_service.execute(query_options("organic_search_#{params[:board]}"))
+    @entries = entry_service.execute(query_options(board))
 
     respond_to do |format|
       format.html do
-        paginate(query_options("organic_search_#{params[:board]}"))
+        paginate(query_options(board))
       end
+
     end
+
 
   end
 
-  def show_social
-
-    @lb = Boards.leaderboard("social_#{params[:board]}")
-    @entries = entry_service.execute(query_options("social_#{params[:board]}"))
-
-    respond_to do |format|
-      format.html do
-        paginate(query_options("social_#{params[:board]}"))
-      end
-    end
-
-  end
-
-  def show_email
-
-    @lb = Boards.leaderboard("email_#{params[:board]}")
-    @entries = entry_service.execute(query_options("email_#{params[:board]}"))
-
-    respond_to do |format|
-      format.html do
-        paginate(query_options("email_#{params[:board]}"))
-      end
-    end
-
-  end
-
-  def show_direct
-
-    @lb = Boards.leaderboard("direct_#{params[:board]}")
-    @entries = entry_service.execute(query_options("direct_#{params[:board]}"))
-
-    respond_to do |format|
-      format.html do
-        paginate(query_options("direct_#{params[:board]}"))
-      end
-    end
-
-  end
-
-  def show_paid
-
-    @lb = Boards.leaderboard("paid_#{params[:board]}")
-    @entries = entry_service.execute(query_options("paid_#{params[:board]}"))
-
-    respond_to do |format|
-      format.html do
-        paginate(query_options("paid_#{params[:board]}"))
-      end
-    end
-
+  def custom_filter
+    
+    custom_api_call(params[:start_date].to_date.to_s, params[:end_date].to_date.to_s, params[:board])
+    redirect_to leaderboards_path(board: params[:board], filter: "custom")
   end
 
   private
@@ -93,17 +43,25 @@ class LeaderboardsController < ApplicationController
 
   end
 
-def check_page_params
-  @page = params[:page] || nil
+  def check_page_params
+    @page = params[:page] || nil
 
-  if @page
-    @drop = 0
-  else
-    @drop = 1
+    if @page
+      @drop = 0
+    else
+      @drop = 1
+    end
   end
-end
 
+  def custom_api_call(start_date, end_date, board_type)
+    @users = User.all
+    @users.each do |user|
+      CustomApiCallJob.perform_later(user, start_date, end_date, board_type)
+      # api = user.custom_api_call(start_date, end_date)
+      # user.update_custom_leaderboard(api, board_type)
+    end
 
+  end
 
 
 end

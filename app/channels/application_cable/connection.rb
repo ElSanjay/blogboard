@@ -1,10 +1,11 @@
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
-    identified_by :current_user
+    identified_by :current_user, :uuid
 
     def connect
+
       self.current_user = find_verified_user
-      logger.add_tags 'ActionCable', current_user.email
+      # logger.add_tags 'ActionCable', current_user.email
     end
 
     protected
@@ -13,8 +14,16 @@ module ApplicationCable
       if verified_user = env['warden'].user
         verified_user
       else
-        reject_unauthorized_connection
+        self.uuid = SecureRandom.urlsafe_base64
       end
     end
-  end
+  # end
+
+  # class Connection < ActionCable::Connection::Base
+  #    identified_by :current_user, :uuid
+  #
+  #    def connect
+  #      self.uuid = SecureRandom.urlsafe_base64
+  #    end
+   end
 end

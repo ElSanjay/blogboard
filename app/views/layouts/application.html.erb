@@ -9,10 +9,12 @@
   </head>
 
   <body>
-
+    <div class="ui inverted dimmer">
+      <div class="ui large text loader">Loading</div>
+    </div>
     <%= render :partial => "shared/notifications"%>
     <%= render :partial => "shared/navigation"%>
-    <div class="ui container">
+    <div id="main-container" class="ui container">
       <%= yield %>
     </div>
   </body>

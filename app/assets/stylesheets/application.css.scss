@@ -10,8 +10,10 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+
  *= require_tree .
  *= require_self
+ *= require semantic-ui-calendar/dist/calendar
  */
 
  @import "semantic-ui";
@@ -108,4 +110,12 @@ background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
     left: -30vw;
     z-index: 10;
     text-align: center;
+ }
+
+ .custom-filter-form {
+   padding: 0!important;
+ }
+
+ #filter-form .fields {
+   margin: 0;
  }

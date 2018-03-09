@@ -29,7 +29,7 @@ class User < ApplicationRecord
   end
 
   def update_leaderboard(board_type)
-    
+
   self.data.each do |key, value|
 
     data = {}
@@ -143,6 +143,31 @@ class User < ApplicationRecord
     datas
   end
 
+  def custom_api_call(start_date, end_date)
+    analytics = Google::Apis::AnalyticsreportingV4::AnalyticsReportingService.new
+    refresh(self)
+
+    auth_client = Signet::OAuth2::Client.new(
+      access_token: self.access_token
+    )
+    auth_client.expires_in = Time.now + 1_000_000
+    analytics.authorization = auth_client
+
+    date= Google::Apis::AnalyticsreportingV4::DateRange.new(start_date: start_date, end_date: end_date)
+    dimension = Google::Apis::AnalyticsreportingV4::Dimension.new(name: 'ga:channelGrouping')
+
+    request = Google::Apis::AnalyticsreportingV4::GetReportsRequest.new(
+      report_requests: [Google::Apis::AnalyticsreportingV4::ReportRequest.new(
+        view_id: self.view_id,
+        dimensions: [dimension],
+        date_ranges: [date]
+      )]
+    )
+
+
+    response = analytics.batch_get_reports(request)
+  end
+
   def refresh(user)
     # Refresh auth token from google_oauth2.
      options = {
@@ -177,5 +202,77 @@ class User < ApplicationRecord
     self.update_leaderboard("email")
     self.update_leaderboard("direct")
     self.update_leaderboard("paid")
+  end
+
+  def update_custom_leaderboard(api, board_type)
+    data = {}
+
+    api.reports.first.data.rows.each do |item|
+      data[item.dimensions.first] = item.metrics.first.values.first
+    end
+
+
+    # self.data["reports"].first["data"]["rows"].each { |item|
+    #   data[item["dimensions"].first]=item["metrics"].first["values"].first
+    # }
+
+    case board_type
+
+    when "mainboard"
+      params = {
+        board_name: board_type+"_custom",
+        name: self.name,
+        avatar: self.image,
+        score: api.reports.first.data.totals.first.values.first,
+        id: self.id,
+        organic: data["Organic Search"],
+        social: data["Social"],
+        email: data["Email"],
+        direct: data["Direct"],
+        paid: data["Paid"]
+      }
+    when "organic_search"
+      params = {
+        board_name: board_type+"_custom",
+        name: self.name,
+        avatar: self.image,
+        score: data["Organic Search"],
+        id: self.id
+      }
+    when "social"
+      params = {
+        board_name: board_type+"_custom",
+        name: self.name,
+        avatar: self.image,
+        score: data["Social"],
+        id: self.id
+      }
+    when "email"
+      params = {
+        board_name: board_type+"_custom",
+        name: self.name,
+        avatar: self.image,
+        score: data["Email"],
+        id: self.id
+      }
+    when "direct"
+      params = {
+        board_name: board_type+"_custom",
+        name: self.name,
+        avatar: self.image,
+        score: data["Direct"],
+        id: self.id
+      }
+    when "paid"
+      params = {
+        board_name: board_type+"_custom",
+        name: self.name,
+        avatar: self.image,
+        score: data["Paid"],
+        id: self.id
+      }
+    end
+
+    Boards::UpdateService.new.execute(params)
   end
 end
