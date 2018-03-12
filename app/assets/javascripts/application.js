@@ -64,5 +64,11 @@ document.addEventListener("turbolinks:load", function() {
   }).on("ajax:error", function(event) {
 
   });
+  $("#auth-form").on("ajax:success", function(event) {
+    location.reload();
+
+  })
+
+
 
 })

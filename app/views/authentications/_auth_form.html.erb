@@ -1,5 +1,16 @@
-<%=form_tag({:action => 'auth', :controller => 'authentications'}, {:method => :get, :remote => true, :class => 'ui form', :id => 'auth-form'}) do %>
 
-  <%= text_field_tag(:view_id, current_user.view_id) %>
-  <%= submit_tag("Update", {:class => 'ui button'}) %>
+<% if !current_user.view_id %>
+
+  <%=form_with url: authentications_auth_path, :method => "get", :class => 'ui form', :id => 'auth-form' do |form|%>
+    <%= form.text_field :view_id, :placeholder => "Provide your view id here" %>
+    <%= form.submit "Update", :class => 'ui button' %>
+  <%end%>
+
+<%else%>
+
+  <%= form_with model: @user, :class => 'ui form', :id => 'auth-update-form' do |form|%>
+    <%= form.text_field :view_id%>
+    <%= form.submit "Update", :class => 'ui button'%>
+  <%end%>
+
 <%end%>

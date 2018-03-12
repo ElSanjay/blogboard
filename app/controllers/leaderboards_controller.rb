@@ -3,10 +3,6 @@ class LeaderboardsController < ApplicationController
 
   def show
 
-    # if params[:filter] == "custom"
-    #   custom_api_call(params[:start_date].to_date.to_s, params[:end_date].to_date.to_s, params[:board])
-    # end
-
     board = "#{params[:board]}_#{params[:filter]}"
     @board_name = params[:board]
     @lb = Boards.leaderboard(board)
@@ -24,7 +20,7 @@ class LeaderboardsController < ApplicationController
   end
 
   def custom_filter
-    
+
     custom_api_call(params[:start_date].to_date.to_s, params[:end_date].to_date.to_s, params[:board])
     redirect_to leaderboards_path(board: params[:board], filter: "custom")
   end

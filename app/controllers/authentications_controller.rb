@@ -4,7 +4,7 @@ class AuthenticationsController < ApplicationController
 
 
   def show
-    
+
     @user = current_user
   end
 
@@ -12,7 +12,8 @@ class AuthenticationsController < ApplicationController
 
     check_data
     UserApiCallJob.perform_later(current_user)
-    redirect_to authentications_path
+
+    redirect_to root_path
 
   end
 

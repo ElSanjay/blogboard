@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get 'authentications', to: 'authentications#show'
   get 'authentications/auth'
 
-  # resources :user
+  resources :users, only:[:show, :edit, :update]
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
