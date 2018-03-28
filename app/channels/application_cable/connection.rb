@@ -7,8 +7,10 @@ module ApplicationCable
 
       if !env['warden'].user
         self.uuid = SecureRandom.urlsafe_base64
+        logger.add_tags 'ActionCable', uuid
       else
         self.current_user = find_verified_user
+        logger.add_tags 'ActionCable', current_user.email
       end
       # logger.add_tags 'ActionCable', current_user.email
     end
